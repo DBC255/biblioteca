@@ -23,4 +23,64 @@ class LivroController extends Controller
 
         return response()->json($livros);
     }
+
+    public function show($id){
+        $livro = Livro::find($id);
+
+        if($livro == null){
+            return response()->json([
+                'erro' => 'livro não encontrado'
+            ]);
+        }
+
+        return response()->json($livro);
+    }
+
+    public function update(Request $request){
+        $livro = Livro::find($request->id);
+
+        if($livro == null){
+            return response()->json([
+                'erro' => 'livro não emcontrado'
+            ]);
+        }
+
+        if(isset($request->titulo)){
+            $livro->titulo = $request->titulo;
+        }
+
+        if(isset($request->ano_publicacao)){
+            $livro->ano_de_publicacao = $request->ano_de_publicacao;
+        }
+
+        if(isset($request->autor_id)){
+            $livro->autor_id = $request->autor_id;
+        }
+
+        if(isset($request->genero)){
+            $livro->genero = $request->genero;
+        }
+
+        $livro->update();
+
+        return response()->json([
+            'Atualizado'
+        ]);
+    }
+
+    public function delete($id){
+        $livro = Livro::find($id);
+
+        if($livro == null){
+            return response()->json([
+                'erro' => 'livro não encontrado'
+            ]);
+        }
+
+        $livro->delete();
+
+        return response()->json([
+            'deletado'
+        ]);
+    }
 }
